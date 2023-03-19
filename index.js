@@ -119,16 +119,16 @@ foregroundImage.src = "./assets/foregroundObjects.png";
 
 // Player imageS definition
 const playerDownImage = new Image();
-playerDownImage.src = "./assets/playerDown_26.png";
+playerDownImage.src = "./assets/playerDown_TENGEN.png";
 
 const playerUpImage = new Image();
-playerUpImage.src = "./assets/playerUp_26.png";
+playerUpImage.src = "./assets/playerUp_TENGEN.png";
 
 const playerLeftImage = new Image();
-playerLeftImage.src = "./assets/playerLeft_26.png";
+playerLeftImage.src = "./assets/playerLeft_TENGEN.png";
 
 const playerRightImage = new Image();
-playerRightImage.src = "./assets/playerRight_26.png";
+playerRightImage.src = "./assets/playerRight_TENGEN.png";
 
 // Movement Image
 const movementGuideImage = new Image();
