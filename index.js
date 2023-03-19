@@ -11,15 +11,23 @@ canvas.height = 512;
 c.fillStyle = "white";
 c.fillRect(0, 0, canvas.width, canvas.height);
 
+/*To change map:
+- Create a new tiled map
+- Export the .PNG file for background image
+- Export the .PNG file for foreground objects
+- Export the JSON file and fetch collisions and interactions
+- Adjust mapSizeindex to the value presented in the json.height and json.width */
+const mapSizeindex = 44
+
 //Create 2D array of collisions
 const collisionsMap = [];
-for (let i = 0; i < collisions.length; i += 32) {
-  collisionsMap.push(collisions.slice(i, i + 32));
+for (let i = 0; i < collisions.length; i += mapSizeindex) {
+  collisionsMap.push(collisions.slice(i, i + mapSizeindex));
 }
 
 const interactionsMap = [];
-for (let i = 0; i < interactions.length; i += 32) {
-  interactionsMap.push(interactions.slice(i, i + 32));
+for (let i = 0; i < interactions.length; i += mapSizeindex) {
+  interactionsMap.push(interactions.slice(i, i + mapSizeindex));
 }
 
 const offset = {
@@ -111,11 +119,11 @@ interactionsMap.forEach((row, i) => {
 
 // Define image object and assign source
 const backgroundimage = new Image();
-backgroundimage.src = "./assets/Village_new.png";
+backgroundimage.src = "./assets/Village_bigger.png";
 
 // Foreground image definition
 const foregroundImage = new Image();
-foregroundImage.src = "./assets/foregroundObjects.png";
+foregroundImage.src = "./assets/foregroundObjects_bigger.png";
 
 // Player imageS definition
 const playerDownImage = new Image();

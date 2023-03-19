@@ -1,10 +1,12 @@
+const tileMapSize = 32;
+
 class Boundary {
-  static width = 32;
-  static height = 32;
+  static width = tileMapSize;
+  static height = tileMapSize;
   constructor({ position }) {
     this.position = position;
-    this.width = 32;
-    this.height = 32;
+    this.width = tileMapSize;
+    this.height = tileMapSize;
   }
 
   draw() {
@@ -14,12 +16,12 @@ class Boundary {
 }
 
 class Interaction {
-  static width = 32;
-  static height = 32;
+  static width = tileMapSize;
+  static height = tileMapSize;
   constructor({ position, type }) {
     this.position = position;
-    this.width = 32;
-    this.height = 32;
+    this.width = tileMapSize;
+    this.height = tileMapSize;
     this.type = type; // Defines the type of interaction
   }
 
