@@ -17,13 +17,17 @@ for (let i = 0; i < collisions.length; i += 32) {
   collisionsMap.push(collisions.slice(i, i + 32));
 }
 
+const interactionsMap = [];
+for (let i = 0; i < interactions.length; i += 32) {
+  interactionsMap.push(interactions.slice(i, i + 32));
+}
+
 const offset = {
   x: -400,
   y: -400,
 };
 
 const boundaries = [];
-
 collisionsMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
     if (symbol === 856)
@@ -38,6 +42,74 @@ collisionsMap.forEach((row, i) => {
   });
 });
 
+const interactibles = [];
+interactionsMap.forEach((row, i) => {
+  row.forEach((symbol, j) => {
+    if (symbol === 858) {
+      interactibles.push(
+        new Interaction({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          type: "ID_Card",
+        })
+      );
+    } else if (symbol === 859) {
+      interactibles.push(
+        new Interaction({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          type: "Storia",
+        })
+      );
+    } else if (symbol === 862) {
+      interactibles.push(
+        new Interaction({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          type: "Carattere",
+        })
+      );
+    } else if (symbol === 863) {
+      interactibles.push(
+        new Interaction({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          type: "Pokemon",
+        })
+      );
+    } else if (symbol === 867) {
+      interactibles.push(
+        new Interaction({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          type: "Eventi",
+        })
+      );
+    } else if (symbol === 864) {
+      interactibles.push(
+        new Interaction({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          type: "OffZone",
+        })
+      );
+    }
+  });
+});
+console.log(interactibles);
+
 // Define image object and assign source
 const backgroundimage = new Image();
 backgroundimage.src = "./assets/Village_200.png";
@@ -50,14 +122,14 @@ foregroundImage.src = "./assets/foregroundObjects.png";
 const playerDownImage = new Image();
 playerDownImage.src = "./assets/playerDown_26.png";
 
-const playerUpImage = new Image()
-playerUpImage.src = "./assets/playerUp_26.png"
+const playerUpImage = new Image();
+playerUpImage.src = "./assets/playerUp_26.png";
 
-const playerLeftImage = new Image()
-playerLeftImage.src = "./assets/playerLeft_26.png"
+const playerLeftImage = new Image();
+playerLeftImage.src = "./assets/playerLeft_26.png";
 
-const playerRightImage = new Image()
-playerRightImage.src = "./assets/playerRight_26.png"
+const playerRightImage = new Image();
+playerRightImage.src = "./assets/playerRight_26.png";
 
 // Create player object
 const player = new Sprite({
@@ -73,8 +145,9 @@ const player = new Sprite({
     up: playerUpImage,
     left: playerLeftImage,
     right: playerRightImage,
-    down: playerDownImage
-  }
+    down: playerDownImage,
+  },
+  speed: 2,
 });
 
 // Create background object
@@ -111,16 +184,7 @@ const keys = {
   },
 };
 
-const movables = [background, foreground, ...boundaries];
-
-function rectangularCollision({ rectangle1, rectangle2 }) {
-  return (
-    rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
-    rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
-    rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
-    rectangle1.position.y + rectangle1.height >= rectangle2.position.y
-  );
-}
+const movables = [background, foreground, ...boundaries, ...interactibles];
 
 // Basically the main function
 function animate() {
@@ -129,14 +193,21 @@ function animate() {
   boundaries.forEach((boundary) => {
     boundary.draw();
   });
+  interactibles.forEach((interactible) => {
+    interactible.draw();
+  });
   player.draw();
   foreground.draw();
 
   let moving = true;
-  player.moving = false
+  player.moving = false;
+
+  // WHAT HAPPENS WHEN YOU PRESS KEYS
+
+  // DOWN (S)
   if (keys.s.pressed && lastKey == "s") {
-    player.moving = true
-    player.image = player.sprites.down
+    player.moving = true;
+    player.image = player.sprites.down;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -147,7 +218,7 @@ function animate() {
             position: {
               //creates a clone without overriding the original one
               x: boundary.position.x,
-              y: boundary.position.y - 3,
+              y: boundary.position.y - player.speed,
             },
           },
         })
@@ -159,11 +230,22 @@ function animate() {
     }
     if (moving)
       movables.forEach((movable) => {
-        movable.position.y -= 3;
+        movable.position.y -= player.speed;
       });
-  } else if (keys.w.pressed && lastKey == "w") {
-    player.moving = true
-    player.image = player.sprites.up
+  }
+  // UP (W)
+  else if (keys.w.pressed && lastKey == "w") {
+    player.moving = true;
+    player.image = player.sprites.up;
+
+    checkForInteractionCollision({
+      interactibles,
+      player,
+      interactibleOffset: { x: 0, y: player.speed },
+    });
+
+    console.log(player.interactionAsset);
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -174,7 +256,7 @@ function animate() {
             position: {
               //creates a clone without overriding the original one
               x: boundary.position.x,
-              y: boundary.position.y + 3,
+              y: boundary.position.y + player.speed,
             },
           },
         })
@@ -186,11 +268,22 @@ function animate() {
     }
     if (moving)
       movables.forEach((movable) => {
-        movable.position.y += 3;
+        movable.position.y += player.speed;
       });
-  } else if (keys.a.pressed && lastKey == "a") {
-    player.moving = true
-    player.image = player.sprites.left
+  }
+  // LEFT (A)
+  else if (keys.a.pressed && lastKey == "a") {
+    player.moving = true;
+    player.image = player.sprites.left;
+
+    interactionAsset = checkForInteractionCollision({
+      interactibles,
+      player,
+      interactibleOffset: { x: player.speed, y: 0 },
+    });
+
+    console.log(interactionAsset);
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -200,7 +293,7 @@ function animate() {
             ...boundary,
             position: {
               //creates a clone without overriding the original one
-              x: boundary.position.x + 3,
+              x: boundary.position.x + player.speed,
               y: boundary.position.y,
             },
           },
@@ -213,11 +306,22 @@ function animate() {
     }
     if (moving)
       movables.forEach((movable) => {
-        movable.position.x += 3;
+        movable.position.x += player.speed;
       });
-  } else if (keys.d.pressed && lastKey == "d") {
-    player.moving = true
-    player.image = player.sprites.right
+  }
+  // RIGHT (D)
+  else if (keys.d.pressed && lastKey == "d") {
+    player.moving = true;
+    player.image = player.sprites.right;
+
+    interactionAsset = checkForInteractionCollision({
+      interactibles,
+      player,
+      interactibleOffset: { x: -player.speed, y: 0 },
+    });
+
+    console.log(interactionAsset);
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -227,7 +331,7 @@ function animate() {
             ...boundary,
             position: {
               //creates a clone without overriding the original one
-              x: boundary.position.x - 3,
+              x: boundary.position.x - player.speed,
               y: boundary.position.y,
             },
           },
@@ -240,16 +344,30 @@ function animate() {
     }
     if (moving)
       movables.forEach((movable) => {
-        movable.position.x -= 3;
+        movable.position.x -= player.speed;
       });
   }
 }
 animate();
 
-// MOVEMENT
+// MOVEMENT CHARACTERISTICS
 let lastKey = "";
 // Key pressed
 window.addEventListener("keydown", (e) => {
+    // Interaction Switch-Case
+    if (e.key === ' '){
+        switch (player.interactionAsset){
+            case "ID_Card":
+                console.log('Interacting with ID_Card')
+                break
+            case "Storia":
+                console.log('Interacting with Storia')
+                break
+        }
+    }
+
+
+    // Movement Switch-Case
   switch (e.key) {
     case "w":
       keys.w.pressed = true;

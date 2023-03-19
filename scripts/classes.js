@@ -13,8 +13,24 @@ class Boundary {
   }
 }
 
+class Interaction {
+  static width = 32;
+  static height = 32;
+  constructor({ position, type }) {
+    this.position = position;
+    this.width = 32;
+    this.height = 32;
+    this.type = type; // Defines the type of interaction
+  }
+
+  draw() {
+    c.fillStyle = "rgba(0,255,0,1)";
+    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+}
+
 class Sprite {
-  constructor({ position, velocity, image, frames = { max: 1 }, sprites }) {
+  constructor({ position, speed, image, frames = { max: 1 }, sprites }) {
     this.position = position;
     this.image = image;
     this.frames = { ...frames, val: 0, elapsed: 0 };
@@ -24,10 +40,10 @@ class Sprite {
     };
     this.moving = false;
     this.sprites = sprites;
+    this.speed = speed;
   }
 
   draw() {
-    //c.drawImage(this.image, this.position.x, this.position.y)
     c.drawImage(
       this.image,
       this.frames.val * this.width, // x left crop start
