@@ -72,7 +72,7 @@ interactionsMap.forEach((row, i) => {
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y,
           },
-          type: "Carattere",
+          type: "Eventi",
         })
       );
     } else if (symbol === 863) {
@@ -92,7 +92,7 @@ interactionsMap.forEach((row, i) => {
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y,
           },
-          type: "Eventi",
+          type: "Carattere",
         })
       );
     } else if (symbol === 864) {

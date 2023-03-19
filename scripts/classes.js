@@ -24,7 +24,7 @@ class Interaction {
   }
 
   draw() {
-    c.fillStyle = "rgba(0,255,0,1)";
+    c.fillStyle = "rgba(0,255,0,0)";
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 }

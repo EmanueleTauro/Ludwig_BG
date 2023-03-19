@@ -1,0 +1,35 @@
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    overflow-x: hidden;
+    font-size: 11px;
+    font-family: arial;
+    color: #ffffff;
+    text-align: justify;
+}
+
+div.barra {
+    line-height: 12px;
+    letter-spacing: 2px;
+    text-align: center;
+    background-color: #0000b3;
+    opacity: 0.7;
+    border-radius: 1px;
+    padding-left: 2px;
+}
+
+.ti {
+    color: white;
+    font-family: georgia;
+    font-size: 10px;
+    text-shadow: 1px 0.5px 0px black;
+}
+
+.closedDoor{
+    font-size: 20px;
+    font-family: Arial;
+    color: #ffffff;
+    text-align: center;
+}
