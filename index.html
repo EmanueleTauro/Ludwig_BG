@@ -5,10 +5,26 @@
     </head>
     <body>
         <canvas></canvas>
+
+        <div id="interactionDialogueBox" 
+        style="
+            background: url(./assets/iframebackground.png);
+            height: 380px;
+            width: 280px;
+            position: absolute;
+            justify-content: center;
+            top: 60;
+            left: 100;
+            margin: 0 auto;
+            visibility: hidden;
+            padding: 10;">
+            <iframe id="iframe" src="./bg/storia.html" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
     </body>
 </html>
 </style>
 <script src="scripts/classes.js"></script>
+<script src="scripts/keyManager.js"></script>
 <script src="scripts/utils.js"></script>
 <script src="scripts/interactions.js"></script>
 <script src="scripts/collisions.js"></script>

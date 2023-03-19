@@ -1,4 +1,15 @@
-body{
+body {
     background-color: black;
     margin: 0;
+}
+
+.barra { 
+    line-height: 12px;
+    letter-spacing: 2px;
+    text-align: center;
+    background-color:#884DA7;
+    opacity: 0.7;
+    border-radius: 1px;
+    padding-left: 2px;
+    font-family: 'Courier New', Courier, monospace; color: #ABCDEF;
 }

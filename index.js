@@ -108,11 +108,10 @@ interactionsMap.forEach((row, i) => {
     }
   });
 });
-console.log(interactibles);
 
 // Define image object and assign source
 const backgroundimage = new Image();
-backgroundimage.src = "./assets/Village_200.png";
+backgroundimage.src = "./assets/Village_new.png";
 
 // Foreground image definition
 const foregroundImage = new Image();
@@ -130,6 +129,14 @@ playerLeftImage.src = "./assets/playerLeft_26.png";
 
 const playerRightImage = new Image();
 playerRightImage.src = "./assets/playerRight_26.png";
+
+// Movement Image
+const movementGuideImage = new Image();
+movementGuideImage.src = "./assets/movementGuide.png"
+
+// InteractionGuide Image
+const interactionGuideImage = new Image();
+interactionGuideImage.src = "./assets/interactionGuide.png"
 
 // Create player object
 const player = new Sprite({
@@ -168,21 +175,24 @@ const foreground = new Sprite({
   image: foregroundImage,
 });
 
-// Define keys for movement
-const keys = {
-  w: {
-    pressed: false,
+// Create movementGuide object
+const movementGuide = new Sprite({
+  position: {
+    x: 410,
+    y: 10
   },
-  a: {
-    pressed: false,
+  image: movementGuideImage,
+})
+
+// Create interactionGuide object
+const interactionGuide = new Sprite({
+  position: {
+    x: 410,
+    y: 36
   },
-  s: {
-    pressed: false,
-  },
-  d: {
-    pressed: false,
-  },
-};
+  image: interactionGuideImage,
+})
+
 
 const movables = [background, foreground, ...boundaries, ...interactibles];
 
@@ -198,6 +208,8 @@ function animate() {
   });
   player.draw();
   foreground.draw();
+  movementGuide.draw();
+  interactionGuide.draw();
 
   let moving = true;
   player.moving = false;
@@ -208,6 +220,13 @@ function animate() {
   if (keys.s.pressed && lastKey == "s") {
     player.moving = true;
     player.image = player.sprites.down;
+
+    checkForInteractionCollision({
+      interactibles,
+      player,
+      interactibleOffset: { x: 0, y: -player.speed },
+    });
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -276,13 +295,13 @@ function animate() {
     player.moving = true;
     player.image = player.sprites.left;
 
-    interactionAsset = checkForInteractionCollision({
+    checkForInteractionCollision({
       interactibles,
       player,
       interactibleOffset: { x: player.speed, y: 0 },
     });
 
-    console.log(interactionAsset);
+    console.log(player.interactionAsset);
 
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -314,13 +333,13 @@ function animate() {
     player.moving = true;
     player.image = player.sprites.right;
 
-    interactionAsset = checkForInteractionCollision({
+    checkForInteractionCollision({
       interactibles,
       player,
       interactibleOffset: { x: -player.speed, y: 0 },
     });
 
-    console.log(interactionAsset);
+    console.log(player.interactionAsset);
 
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -348,60 +367,6 @@ function animate() {
       });
   }
 }
+
 animate();
 
-// MOVEMENT CHARACTERISTICS
-let lastKey = "";
-// Key pressed
-window.addEventListener("keydown", (e) => {
-    // Interaction Switch-Case
-    if (e.key === ' '){
-        switch (player.interactionAsset){
-            case "ID_Card":
-                console.log('Interacting with ID_Card')
-                break
-            case "Storia":
-                console.log('Interacting with Storia')
-                break
-        }
-    }
-
-
-    // Movement Switch-Case
-  switch (e.key) {
-    case "w":
-      keys.w.pressed = true;
-      lastKey = "w";
-      break;
-    case "a":
-      keys.a.pressed = true;
-      lastKey = "a";
-      break;
-    case "s":
-      keys.s.pressed = true;
-      lastKey = "s";
-      break;
-    case "d":
-      keys.d.pressed = true;
-      lastKey = "d";
-      break;
-  }
-});
-
-// Key
-window.addEventListener("keyup", (e) => {
-  switch (e.key) {
-    case "w":
-      keys.w.pressed = false;
-      break;
-    case "a":
-      keys.a.pressed = false;
-      break;
-    case "s":
-      keys.s.pressed = false;
-      break;
-    case "d":
-      keys.d.pressed = false;
-      break;
-  }
-});
