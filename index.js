@@ -250,7 +250,6 @@ function animate() {
           },
         })
       ) {
-        console.log("colliding");
         moving = false;
         break;
       }
@@ -271,8 +270,6 @@ function animate() {
       interactibleOffset: { x: 0, y: player.speed },
     });
 
-    console.log(player.interactionAsset);
-
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -288,7 +285,6 @@ function animate() {
           },
         })
       ) {
-        console.log("colliding");
         moving = false;
         break;
       }
@@ -309,8 +305,6 @@ function animate() {
       interactibleOffset: { x: player.speed, y: 0 },
     });
 
-    console.log(player.interactionAsset);
-
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -326,7 +320,6 @@ function animate() {
           },
         })
       ) {
-        console.log("colliding");
         moving = false;
         break;
       }
@@ -347,8 +340,6 @@ function animate() {
       interactibleOffset: { x: -player.speed, y: 0 },
     });
 
-    console.log(player.interactionAsset);
-
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -364,7 +355,6 @@ function animate() {
           },
         })
       ) {
-        console.log("colliding");
         moving = false;
         break;
       }
@@ -377,4 +367,3 @@ function animate() {
 }
 
 animate();
-
