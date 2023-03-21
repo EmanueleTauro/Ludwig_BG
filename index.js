@@ -17,7 +17,7 @@ c.fillRect(0, 0, canvas.width, canvas.height);
 - Export the .PNG file for foreground objects
 - Export the JSON file and fetch collisions and interactions
 - Adjust mapSizeindex to the value presented in the json.height and json.width */
-const mapSizeindex = 44
+const mapSizeindex = 88
 
 //Create 2D array of collisions
 const collisionsMap = [];
@@ -31,7 +31,7 @@ for (let i = 0; i < interactions.length; i += mapSizeindex) {
 }
 
 const offset = {
-  x: -400,
+  x: -420,
   y: -400,
 };
 
@@ -53,77 +53,26 @@ collisionsMap.forEach((row, i) => {
 const interactibles = [];
 interactionsMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
-    if (symbol === 858) {
+    if (symbol !== 0) {
       interactibles.push(
         new Interaction({
           position: {
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y,
           },
-          type: "ID_Card",
+          type: symbol,
         })
       );
-    } else if (symbol === 859) {
-      interactibles.push(
-        new Interaction({
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y,
-          },
-          type: "Storia",
-        })
-      );
-    } else if (symbol === 862) {
-      interactibles.push(
-        new Interaction({
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y,
-          },
-          type: "Eventi",
-        })
-      );
-    } else if (symbol === 863) {
-      interactibles.push(
-        new Interaction({
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y,
-          },
-          type: "Pokemon",
-        })
-      );
-    } else if (symbol === 867) {
-      interactibles.push(
-        new Interaction({
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y,
-          },
-          type: "Carattere",
-        })
-      );
-    } else if (symbol === 864) {
-      interactibles.push(
-        new Interaction({
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y,
-          },
-          type: "OffZone",
-        })
-      );
-    }
-  });
+  }});
 });
 
 // Define image object and assign source
 const backgroundimage = new Image();
-backgroundimage.src = "./assets/Village_bigger.png";
+backgroundimage.src = "./assets/MappaFigaNuova.png";
 
 // Foreground image definition
 const foregroundImage = new Image();
-foregroundImage.src = "./assets/foregroundObjects_bigger.png";
+foregroundImage.src = "./assets/OverFigureNuova.png";
 
 // Player imageS definition
 const playerDownImage = new Image();
@@ -337,7 +286,7 @@ function animate() {
     checkForInteractionCollision({
       interactibles,
       player,
-      interactibleOffset: { x: -player.speed, y: 0 },
+      interactibleOffset: { x: (-player.speed), y: 0 },
     });
 
     for (let i = 0; i < boundaries.length; i++) {

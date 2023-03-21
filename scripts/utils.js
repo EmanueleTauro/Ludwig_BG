@@ -23,13 +23,14 @@ function checkForInteractionCollision({
         rectangle2: {
           ...interactible,
           position: {
-            x: interactible.position.x + interactibleOffset.x,
-            y: interactible.position.y + interactibleOffset.y,
+            x: interactible.position.x + interactibleOffset.x +1 ,
+            y: interactible.position.y + interactibleOffset.y +1,
           },
         },
       })
     ) {
-      player.interactionAsset = interactible.type;
+      player.interactionAsset = interactions_dictionary[interactible.type];
+      console.log(player.interactionAsset)
       break;
     }
   }
@@ -42,11 +43,9 @@ function performInteraction({ player }) {
     document.querySelector("#interactionDialogueBox").style.visibility ===
     "hidden"
   ) {
+    document.querySelector("iframe").src = `./bg/${player.interactionAsset}.html`;
     document.querySelector("#interactionDialogueBox").style.visibility =
       "visible";
-    document.querySelector(
-      "iframe"
-    ).src = `./bg/${player.interactionAsset}.html`;
   } else {
     document.querySelector("#interactionDialogueBox").style.visibility =
       "hidden";

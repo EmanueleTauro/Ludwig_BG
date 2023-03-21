@@ -1,4 +1,4 @@
-const tileMapSize = 32;
+const tileMapSize = 16;
 
 class Boundary {
   static width = tileMapSize;
